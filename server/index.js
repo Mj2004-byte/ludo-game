@@ -26,7 +26,7 @@ const io = new Server(server, {
   cors: { origin: "*" },
 });
 
-const LOBBY_MS = 20000;
+const LOBBY_MS = 60000;
 const AI_STEP_MS = 550;
 
 app.use(cors());
