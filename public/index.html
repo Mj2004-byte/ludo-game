@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ludo — Multiplayer</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>Ludo</h1>
+        <p class="tagline">Rooms, voice &amp; video — classic board</p>
+      </header>
+
+      <section id="panel-lobby" class="panel">
+        <div class="tabs">
+          <button type="button" class="tab active" data-tab="create">Create room</button>
+          <button type="button" class="tab" data-tab="join">Join room</button>
+        </div>
+
+        <form id="form-create" class="form tab-content active">
+          <label>
+            Your name
+            <input type="text" id="create-name" maxlength="24" placeholder="Player 1" required />
+          </label>
+          <button type="submit">Create room</button>
+        </form>
+
+        <form id="form-join" class="form tab-content">
+          <label>
+            Your name
+            <input type="text" id="join-name" maxlength="24" placeholder="Player" required />
+          </label>
+          <label>
+            Room ID
+            <input type="text" id="join-room" maxlength="32" placeholder="LUDO9K2" required />
+          </label>
+          <label>
+            Password
+            <input type="text" id="join-pass" maxlength="8" inputmode="numeric" placeholder="7890" required />
+          </label>
+          <button type="submit">Join room</button>
+        </form>
+
+        <p id="lobby-error" class="error" hidden></p>
+      </section>
+
+      <section id="panel-room" class="panel hidden">
+        <div id="video-lobby-anchor" class="video-lobby-anchor"></div>
+
+        <div class="room-info">
+          <div>
+            <span class="label">Room ID</span>
+            <strong id="room-id-display">—</strong>
+            <button type="button" id="copy-id" class="btn-small">Copy</button>
+          </div>
+          <div>
+            <span class="label">Password</span>
+            <strong id="room-pass-display">—</strong>
+            <button type="button" id="copy-pass" class="btn-small">Copy</button>
+          </div>
+        </div>
+
+        <p class="hint">
+          Share room ID + password. Up to four people can join; you’ll see each other here. Auto-start in 20s or use
+          Start now — empty seats use AI.
+        </p>
+
+        <p id="lobby-countdown" class="countdown" hidden></p>
+
+        <ul id="player-list" class="player-list"></ul>
+
+        <div class="actions">
+          <button type="button" id="btn-start" class="primary" hidden>Start now</button>
+        </div>
+
+        <p id="room-error" class="error" hidden></p>
+      </section>
+
+      <section id="panel-game" class="panel-game hidden">
+        <div class="ludo-playfield">
+          <div class="ludo-grid" id="ludo-grid-root">
+            <div class="board-center">
+            <div class="game-bar">
+              <button type="button" id="btn-mute-game" class="btn-small">Mute mic</button>
+              <span id="turn-label">—</span>
+              <span id="dice-label" class="dice">🎲 —</span>
+              <button type="button" id="btn-roll" class="primary">Roll dice</button>
+            </div>
+            <div class="board-wrap">
+              <canvas id="ludo-canvas" width="400" height="400" aria-label="Ludo board"></canvas>
+            </div>
+            <p class="hint" id="move-hint">Your pieces — tap to move when it’s your turn (after rolling).</p>
+            <div id="piece-controls" class="piece-controls"></div>
+            <p id="game-msg" class="msg"></p>
+            <p id="game-error" class="error" hidden></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="video-stage" class="video-stage hidden" aria-label="Player video">
+      <div class="video-toolbar">
+        <button type="button" id="btn-mute" class="btn-small">Mute mic</button>
+        <span id="media-hint" class="media-hint">Allow camera &amp; mic when your browser asks.</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-face-wrap" data-player="0" data-color="red">
+          <video class="video-face" data-player="0" playsinline autoplay muted hidden></video>
+          <div class="video-placeholder"></div>
+          <div class="video-label">Red</div>
+        </div>
+        <div class="video-face-wrap" data-player="1" data-color="green">
+          <video class="video-face" data-player="1" playsinline autoplay hidden></video>
+          <div class="video-placeholder"></div>
+          <div class="video-label">Green</div>
+        </div>
+        <div class="video-face-wrap" data-player="2" data-color="yellow">
+          <video class="video-face" data-player="2" playsinline autoplay hidden></video>
+          <div class="video-placeholder"></div>
+          <div class="video-label">Yellow</div>
+        </div>
+        <div class="video-face-wrap" data-player="3" data-color="blue">
+          <video class="video-face" data-player="3" playsinline autoplay hidden></video>
+          <div class="video-placeholder"></div>
+          <div class="video-label">Blue</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/webrtc.js"></script>
+    <script src="/static/ludo-board.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
