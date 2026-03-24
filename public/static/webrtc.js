@@ -12,9 +12,28 @@
   let socketRef = null;
   let lastMyId = null;
   let lastPeerIds = null;
+  let mediaError = null;
 
   function getVideoEl(i) {
     return document.querySelector(`.video-face[data-player="${i}"]`);
+  }
+
+  function setMediaHint(text) {
+    const el = document.getElementById("media-hint");
+    if (!el) return;
+    el.textContent = text || "Allow camera & mic when your browser asks.";
+  }
+
+  function showNoStreamPlaceholder(i, text) {
+    const wrap = document.querySelector(`.video-face-wrap[data-player="${i}"]`);
+    if (!wrap) return;
+    const ph = wrap.querySelector(".video-placeholder");
+    const v = getVideoEl(i);
+    if (ph) ph.textContent = text;
+    if (v) {
+      v.srcObject = null;
+      v.hidden = true;
+    }
   }
 
   function setPlaceholder(i, player, myIndex) {
@@ -23,39 +42,39 @@
     const ph = wrap.querySelector(".video-placeholder");
     const v = getVideoEl(i);
     if (!player) {
-      if (ph) ph.textContent = "Waiting";
-      if (v) {
-        v.srcObject = null;
-        v.hidden = true;
-      }
+      showNoStreamPlaceholder(i, "Waiting");
       return;
     }
     if (player.isAI) {
-      if (ph) ph.textContent = "AI";
-      if (v) {
-        v.srcObject = null;
-        v.hidden = true;
-      }
+      showNoStreamPlaceholder(i, "AI");
       return;
     }
     if (typeof myIndex === "number" && i === myIndex) {
-      if (ph) ph.textContent = "";
+      if (localStream) {
+        if (ph) ph.textContent = "";
+      } else {
+        showNoStreamPlaceholder(i, mediaError ? "Camera blocked" : "Allow camera");
+      }
       return;
     }
-    if (ph) ph.textContent = "";
-    if (v) {
-      v.srcObject = null;
-      v.hidden = true;
-    }
+    showNoStreamPlaceholder(i, "Connecting...");
   }
 
   async function ensureLocalStream() {
     if (localStream) return localStream;
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user", width: { ideal: 480 }, height: { ideal: 360 } },
-      audio: true,
-    });
-    return localStream;
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user", width: { ideal: 480 }, height: { ideal: 360 } },
+        audio: true,
+      });
+      mediaError = null;
+      setMediaHint("");
+      return localStream;
+    } catch (err) {
+      mediaError = err;
+      setMediaHint("Camera/mic access blocked. Allow permission and reload.");
+      throw err;
+    }
   }
 
   function closePeer(remoteId) {
