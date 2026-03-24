@@ -252,10 +252,11 @@ body.game-active {
 
 .panel {
   margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  padding: 1.35rem;
+  background: linear-gradient(165deg, rgba(29, 40, 58, 0.97) 0%, rgba(24, 34, 49, 0.97) 100%);
+  border: 1px solid rgba(122, 150, 187, 0.28);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
 }
 
 .hidden {
@@ -270,19 +271,27 @@ body.game-active {
 
 .tab {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border);
+  padding: 0.6rem 0.85rem;
+  border: 1px solid rgba(122, 150, 187, 0.28);
   border-radius: 8px;
-  background: transparent;
+  background: rgba(10, 16, 24, 0.25);
   color: var(--muted);
   cursor: pointer;
   font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 160ms ease;
+}
+
+.tab:hover {
+  border-color: rgba(132, 174, 255, 0.5);
+  color: #d9e7ff;
 }
 
 .tab.active {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(55, 122, 232, 0.38), rgba(61, 139, 253, 0.2));
+  color: #f3f7ff;
+  border-color: rgba(132, 174, 255, 0.85);
+  box-shadow: 0 8px 20px rgba(23, 73, 156, 0.28);
 }
 
 .tab-content {
@@ -299,17 +308,24 @@ body.game-active {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  font-size: 0.9rem;
-  color: var(--muted);
+  font-size: 0.92rem;
+  color: #c8d4e7;
 }
 
 input[type="text"] {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--border);
+  padding: 0.62rem 0.8rem;
+  border: 1px solid rgba(130, 163, 204, 0.35);
   border-radius: 8px;
-  background: var(--bg);
+  background: rgba(11, 17, 26, 0.86);
   color: var(--text);
   font-size: 1rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+input[type="text"]:focus {
+  border-color: rgba(132, 174, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(92, 145, 246, 0.2);
+  outline: none;
 }
 
 button[type="submit"],
@@ -323,6 +339,13 @@ button[type="submit"],
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 120ms ease, box-shadow 160ms ease;
+}
+
+button[type="submit"]:hover,
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(44, 113, 227, 0.4);
 }
 
 button[type="submit"]:disabled,
@@ -370,6 +393,32 @@ button[type="submit"]:disabled,
   margin: 0.75rem 0 0;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+.lobby-intro {
+  margin: 0 0 0.85rem;
+  color: #d2dced;
+  font-size: 0.93rem;
+}
+
+.form-intro {
+  margin: 0 0 0.25rem;
+  color: #a9bdd9;
+  font-size: 0.85rem;
+}
+
+.credit-line {
+  margin: 0.45rem 0 0;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #97aac7;
+  letter-spacing: 0.01em;
+}
+
+.credit-line span {
+  color: #f8e8b3;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 227, 140, 0.25);
 }
 
 .countdown {

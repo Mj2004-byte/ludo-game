@@ -14,20 +14,24 @@
       </header>
 
       <section id="panel-lobby" class="panel">
+        <p class="lobby-intro">Play together, talk live, and enjoy a friendly Ludo night.</p>
         <div class="tabs">
           <button type="button" class="tab active" data-tab="create">Create room</button>
           <button type="button" class="tab" data-tab="join">Join room</button>
         </div>
 
         <form id="form-create" class="form tab-content active">
+          <p class="form-intro">Start a new table and invite friends with one tap.</p>
           <label>
             Your name
             <input type="text" id="create-name" maxlength="24" placeholder="Player 1" required />
           </label>
           <button type="submit">Create room</button>
+          <p class="credit-line">Crafted with care by <span>Manish</span></p>
         </form>
 
         <form id="form-join" class="form tab-content">
+          <p class="form-intro">Enter your room code and jump into the match.</p>
           <label>
             Your name
             <input type="text" id="join-name" maxlength="24" placeholder="Player" required />
@@ -41,6 +45,7 @@
             <input type="text" id="join-pass" maxlength="8" inputmode="numeric" placeholder="7890" required />
           </label>
           <button type="submit">Join room</button>
+          <p class="credit-line">Crafted with care by <span>Manish</span></p>
         </form>
 
         <p id="lobby-error" class="error" hidden></p>

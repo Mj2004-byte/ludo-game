@@ -36,6 +36,14 @@
     }
   }
 
+  /** True when this slot already shows a remote (or local) MediaStream — don’t wipe it on every room:state tick. */
+  function slotHasLiveStream(i) {
+    const v = getVideoEl(i);
+    const stream = v?.srcObject;
+    if (!stream || !(stream instanceof MediaStream)) return false;
+    return stream.active && stream.getTracks().some((t) => t.readyState === "live");
+  }
+
   function setPlaceholder(i, player, myIndex) {
     const wrap = document.querySelector(`.video-face-wrap[data-player="${i}"]`);
     if (!wrap) return;
@@ -55,6 +63,12 @@
       } else {
         showNoStreamPlaceholder(i, mediaError ? "Camera blocked" : "Allow camera");
       }
+      return;
+    }
+    /* Remote human: only show “Connecting…” until WebRTC attaches; never clear video on each game state broadcast. */
+    if (slotHasLiveStream(i)) {
+      if (ph) ph.textContent = "";
+      if (v && v.hidden) v.hidden = false;
       return;
     }
     showNoStreamPlaceholder(i, "Connecting...");
